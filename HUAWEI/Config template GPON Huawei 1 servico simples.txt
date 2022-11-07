@@ -1,95 +1,174 @@
+=================================================================================================================================
+|                                **Criação de tipo de Usuario                                                                    |
+---------------------------------------------------------------------------------------------------------------------------------
+|        config#
+|            terminal user-profile add 
+|                user profile name (<=15 chars): TipoUser
+|                validaty period of  the user name (0- -999 days)[0]:5
+|                validaty period of the password (0- -999 days)[0]:5
+|                permitted start time of logon by a user (hh:mm)[00:00] 00:00
+|                adding user-profile and time of logon by user(hh:mm)[00:00]: 00:00
+|                adding user-profile sucessfully
+|                repeat this operation? (y/n)[n]:n
+|
+|
+---------------------------------------------------------------------------------------------------------------------------------
+|                                **Verificando se usuario foi criado.                                                            |
+_________________________________________________________________________________________________________________________________
+|    enable>
+|        config#
+|            display terminal user-profile all
+|
+=================================================================================================================================
+|                                 ** Criação de usuario **                                                                       |
+---------------------------------------------------------------------------------------------------------------------------------
+|   enable>
+|       config#
+|            terminal user name
+|            User Name(lenght<6,15>): UserName 
+|            User password(lenght<6,15>): //A senha não aparece no terminal e deve conter caractere especial 
+|            Confirm password(lenght<6,15>): //A senha não aparece no terminal e deve conter caractere especial 
+|            User Profile name (<=15 chars) [root]: TipoUser
+|            Users Level:
+|                1. Common Use 2. Operator 3. Administrator: 3
+|                permitted Reenter Number(0-20): 3 //quantidade de usuario conectado simultaneamente com esse UserName
+|                User append info(<=30 chars): curso // informação para carecterizar esse usuario
+|                adding user succesfully
+|                repeat this operation? (y/n)[n]: n 
+|
+---------------------------------------------------------------------------------------------------------------------------------
+|                             ** Verificando se usuario foi criado com sucesso**                                                 |
+_________________________________________________________________________________________________________________________________
+|
+|    enable>
+|        config#
+|            display terminal user all
+|
+---------------------------------------------------------------------------------------------------------------------------------
+                            ** mostra quais tipos de acesso os usuário tem permição de se conectar **                            |
+_________________________________________________________________________________________________________________________________
+|    enable>
+|        config#
+|            display terminal user logon-mode 
+|
+|
+| 
+---------------------------------------------------------------------------------------------------------------------------------
+                           ** mostra quais usuarios estão onlines no momento **                                                 |
+_________________________________________________________________________________________________________________________________
+|    enable>
+|        config#
+|            display terminal user online
+---------------------------------------------------------------------------------------------------------------------------------
+|                           ** mostra os usuarios registrados **                                                                |
+_________________________________________________________________________________________________________________________________
+|    enable>
+|        config#
+|            display client
+---------------------------------------------------------------------------------------------------------------------------------
 
+
+=================================================================================================================================
+|                            ** Configurando Fuso Horário **                                                                     |
+---------------------------------------------------------------------------------------------------------------------------------
+|     enable>
+|        config#
+|            timezone gmt- 03:00
+---------------------------------------------------------------------------------------------------------------------------------
+|                            ** Ajustando a data e hora **                                                                       |
+_________________________________________________________________________________________________________________________________
+|    enable>
+|        config#
+|            time aaaa-mm-dd hh:mm:ss  //2021-10-28 14:30:00
+---------------------------------------------------------------------------------------------------------------------------------
+
+    
+
+=================================================================================================================================
+|                            ** Consultando configuraçoes atuais do equipamento **                                               |
+---------------------------------------------------------------------------------------------------------------------------------
+|    enable
+|        config#
+|            display current-configuration
+---------------------------------------------------------------------------------------------------------------------------------
+
+=================================================================================================================================
+|                            ** Reset OLT aos padroes de fabrica **                                                              |
+---------------------------------------------------------------------------------------------------------------------------------
+|    enable
+|        config#
+|            erase flash data // apaga todos os dados da flash
+|               reboot system // rinicia a OLT voltando zerada
+---------------------------------------------------------------------------------------------------------------------------------
 
 
 
 ** Criando e associando VLAN
 
-
 MA5600T(config)# vlan 10 smart 
-
 MA5600T(config)# vlan desc 10 description “Internet” 
-
-MA5600T(config)# port vlan 10 0/3 0-3            -->>> Colocando a VLAN 10  nas portas de uplink do slot 3
+MA5600T(config)# port vlan 10 0/3 0-3    -->>> Colocando a VLAN 10  nas portas de uplink do slot 3
 
 
 ------------------------- DBA - será usado para controlar a banda de UPSTREAM ----------------------------
 
 ******** Criando perfil de banda para uplink para: taxa max = 50Mbps
-
 MA5600T(config)# dba-profile add profile-id 10 profile-name 50m type4 max 51000
-
 
 ------------------------- TRAFFIC TABLES - será usado para controlar a banda de DOWNSTREAM ou UPSTREAM -------
 
 ******** Criando o perfil de tráfego para: taxa garantida = 40Mbps e de pico = 45Mbps
-
 MA5600T(config)# traffic table ip index 40 name 40m cir 41000 pir 46000 priority 5 priority-policy  local-Setting
 
 
-
 ******** Criando o perfil de tráfego para: taxa garantida = 100Mbps e de pico = 105Mbps
-
 MA5800-X2(config)# traffic table ip index 100 name 100m cir 101000 pir 1060000 priority 7 priority-policy local-Setting
-
 
 
 ------------------------- LINE PROFILE ----------------------------------------------------------------
 
 MA5800-X2(config)# ont-lineprofile gpon profile-id 10 profile-name vlan-10-50m-up-100m-dw
-
 MA5800-X2(config-gpon-lineprofile-10)# tcont 1 dba-profile-id 50
-
 MA5800-X2(config-gpon-lineprofile-10)# qos-mode gem-car 
-
 MA5800-X2(config-gpon-lineprofile-10)# gem add 1 eth tcont 1 gem-car 100
-
 MA5800-X2(config-gpon-lineprofile-10)# gem mapping 1 1 vlan 10
 
-
---------->> Procurando as ONUs que estão conectadas mas ainda não foram autorizadas
-
+        -->> Procurando as ONUs que estão conectadas mas ainda não foram autorizadas
 
 MA5603T(config-if-gpon-0/1)# display ont autofind 0        -->> ((Lista ONUs não autorizadas na porta 0 - para saber o SN da ONU))
-
 MA5603T(config-if-gpon-0/1)# display ont autofind 1        -->> ((Lista ONUs não autorizadas na porta 1 - para saber o SN da ONU))
 
 
---------->> Adicionando (registrando) a ONU:
+        -->> Adicionando (registrando) a ONU:
 
 
 MA5600T(config-if-gpon-0/1)# ont add <GPON-PORT-ID> ontid <ONU-ID> sn-auth <SN-da-ONU> omci ont-lineprofile-id <ID-Line-Profile> ont-srvprofile-id <ID-Srv-Profile> desc "D.Maria-CPF-000000000"
-
-
 Exemplo: ONU-SN: 4857544360D3AC3D na porta PON 1,
-
 MA5600T(config-if-gpon-0/1)# ont confirm 1 sn-auth 4857544360D3AC3D omci ont-lineprofile-id 10 ont-srvprofile-id 0 desc "D.Maria-CPF-000000000"
 
 
---------->> Visualizando as informações das ONUs já adicionadas:
+        -->> Visualizando as informações das ONUs já adicionadas:
 
 MA5800-X2(config-if-gpon-0/1)# display ont optical-info 1 all   --->> Pra ver potência de recepção em todas ONUs da porta 1 do sltot 1
-
 MA5800-X2(config)# display ont info summary 0                   --->> Pra ver resumo de todas ONUs cadastradas na OLT
 
 ------------------------------
--->> Se for configurar ONU Bridge tem que dar o comando abaixo. Se for PPPoE não precisa.
+        -->> Se for configurar ONU Bridge tem que dar o comando abaixo. Se for PPPoE não precisa.
 
 
 MA5600T(config-if-gpon-0/9)# ont port native-vlan <PORTA PON> <ONU ID> eth <PORTA ETH DA ONU> vlan <VLAN_01>
-
 MA5600T(config-if-gpon-0/9)# ont port native-vlan 1 0 eth 1 vlan 10   ----->> Configurando serviço de internet saindo bridge (untag) da VLAN 10 na porta 'eth 1' da ONU 0 da porta PON 1
                                                                     -->>-->> Só precisa dar este comando se for configurar ONU Bridge. Se for configurar ONU PPPoE não precisa deste comando
-
                                                                             	
 ------------------------- SERVICE PORT  ---------------------------------------------------------------------
 
 ******** Atribuindo o Serviço à porta (service-port)
 
------------------------->>>>>>>> SEM controle de Tráfego 
+        -->> SEM controle de Tráfego 
 
 MA5600T(config)# service-port vlan 10 gpon 0/1/0 ont 0 gemport 1 multi-service user-vlan 10   
 
------------------------->>>>>>>> COM controle de Tráfego 
+       -->>>>>>>> COM controle de Tráfego 
 
 MA5600T(config)# service-port 1 vlan 10 gpon 0/9/0 ont 0 gemport 1 multi-service user-vlan 10 rx-cttr 100 tx-cttr 40
 
@@ -97,45 +176,28 @@ rx-cttr == inbound  -->> download  (OLT --> ONU)
 tx-cttr == outbound -->> upload    (ONU --> OLT)
 
 
-================= CONFIGURANDO PPPoE ATRAVÉS DO OMCI (através da OLT) =================
-
+    ================= CONFIGURANDO PPPoE ATRAVÉS DO OMCI (através da OLT) =================
 
 MA5600T(config)# gpon ont home-gateway config-method omci
 
--->> Criando o profile WAN
+        -->> Criando o profile WAN
 
 MA5600T(config)# ont wan-profile profile-id 30 profile-name WAN-NAT
 MA5600T(config)# nat enable
 MA5600T(config)# quit
 
-
-
 -->> Entrando no slot onde está a ONU que queremos configurar
 
 MA5600T(config)# interface gpon 0/1
 
-
-
--->> Criando a interface WAN PPPoE na ONU:
+        -->> Criando a interface WAN PPPoE na ONU:
 
 MA5600T(config-if-gpon-0/1)# ont ipconfig 1 0 ip-index 0 pppoe vlan 10 user-account username usuario10 password usuario10
-
 MA5600T(config-if-gpon-0/1)# ont wan-config 1 0 ip-index 0 profile-id 30
-
 MA5600T(config-if-gpon-0/1)# ont internet-config 1 0 ip-index 0
 
-
-
--->> Definindo o roteamento de tráfego da porta WAN para as portas de ETH da ONU (Ex p/ ONU c/ 2 portas ETH):
+        -->> Definindo o roteamento de tráfego da porta WAN para as portas de ETH da ONU (Ex p/ ONU c/ 2 portas ETH):
 
 MA5600T(config-if-gpon-0/1)# ont port route 1 0 eth 1 enable
 MA5600T(config-if-gpon-0/1)# ont port route 1 0 eth 2 enable
 MA5600T(config-if-gpon-0/1)# quit
-
-
-
-
-
-
-
-
