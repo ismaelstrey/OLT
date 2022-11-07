@@ -8,8 +8,9 @@
 | Proibited                           | Indica que a placa está com estado de proibido ou com bloqueio
 ---------------------------------------------------------------------------------------------------------------------------------
 
-                        #save // salva todas as alteraçoes feitas na flash
-                        #undo // uma negação de um comando (Utilizado para desfazer um comando feito)
+                        #save                   // salva todas as alteraçoes feitas na flash
+                        #undo                   // uma negação de um comando (Utilizado para desfazer um comando feito)
+                        #display idle-timeout   // mostrar o tempo de seção do login no terminal
 
 
 =================================================================================================================================
