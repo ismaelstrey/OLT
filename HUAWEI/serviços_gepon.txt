@@ -1,8 +1,8 @@
-                                 GEM PORT & T-CONT    Fazer controle de banda
+                                            GEM PORT & T-CONT    Fazer controle de banda
 
-                                 criando um perfil de banda 100 down 50 upload
+                                            criando um perfil de banda 100 down 50 upload
 
-                                          CONTROLE DE BANDA
+                                                    CONTROLE DE BANDA
                                                  ____________________
                              ___________________|                    |
                             |                   |                    |   vlan 10
@@ -119,8 +119,8 @@
 |                service-port vlan 10 gpon 0/1/1 ont 0 gemport 1 multi-service user-vlan 10 rx-cttr 100 tx-cttr 60 
 |                   // o 100 acisionado acima se refere a id da tabela de trafico e o 60 tanbem
 |                   // caso tenha sido criado sem o serviçe porte , como posso adicionar ele agora?
-|                   display service-port all                                                         // lista todos services port
-|                   undo service-port vlan 10 gpon 0/1/1 ont 0 gemport 1 multi-service user-vlan 10                 // removo ele 
-|                  service-port vlan 10 gpon 0/1/1 ont 0 gemport 1 multi-service user-vlan 10 rx-cttr 100 tx-cttr 60   //adiciono
+|                display service-port all                                                         // lista todos services port
+|                undo service-port vlan 10 gpon 0/1/1 ont 0 gemport 1 multi-service user-vlan 10                 // removo ele 
+|                service-port vlan 10 gpon 0/1/1 ont 0 gemport 1 multi-service user-vlan 10 rx-cttr 100 tx-cttr 60   //adiciono
 ---------------------------------------- ----------------------------------------------------------------------------------------
 
