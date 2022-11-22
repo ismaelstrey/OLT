@@ -1,0 +1,19 @@
+1 - Verificar se tem alguma ONU Para Authorizar.
+    - ONU Authorization View
+        - Irá listar ONU para authorizar.
+            - Selecionar ONU as "phisical ID Authentication" Mode added to Whitelist
+                - selected line
+    created on "Device"
+    Save to database
+        - copia o MAC ADDREES
+
+    Volto par ONU list 
+        - Pesquiso pelo phisicalid
+            - Seleciono a ONU
+            - Vou em View DETAILS(V)
+
+
+
+para testes ONU JOÂO E TECNICO
+TPLGe5f4c65a
+FHTT094a7bf2
