@@ -1,0 +1,31 @@
+1 - verificar qual o slot novo que foi adicionado a placa
+2 - listar as placas
+  display board 0
+
+3 - entrar em modo de configuração
+
+  config
+
+4 - adiconar a placa 
+
+  board confirm 0/X (x é o slot)
+
+
+5 - verificar se foi adionado corretamente a placa
+
+  display board 0
+  display board 0/X
+
+
+6 - Ir no smartolt e ver se apareceu a placa na lista 
+
+7 - habilitar todas as pons e autofind
+
+	Enable All ports no smartolt 
+	Enable autofind no smartlt
+
+8 - criar as vlan de acordo com o olt
+  
+    exemplo slot3 vlans 1301-1316
+
+9 - Passar as vlans no uplink da olt 

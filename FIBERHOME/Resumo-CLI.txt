@@ -51,6 +51,7 @@ Admin# set power_alarm enable 1
 
 ============================================================================
 ALTERAR COMMUNITY SNMP
+Admin\service# show snmp trapreceiver //Mostrar todas as community
 Admin\service# set snmp community readwrite NOME
 Admin\service# set snmp community readonly NOME
 
@@ -228,7 +229,8 @@ Config# cd gponl3
 
 Config\gponl3# set vpn_pass_through 1
 
-============================================================================HABILITAR LAG/LACP
+============================================================================
+HABILITAR LAG/LACP
 Admin# cd device
 
 Admin\device# set uplink port 19:2 enable 
@@ -384,3 +386,16 @@ Admin\aaa# user
   login-password   Set user's login password.
   role             Change User's system role
   state            Change User's enable state.
+
+=========================================================================
+ATUALIZAÇÃO DE PLACA PON (GC8B_RP1200_012S1B)
+
+Admin# version // retornara a o nome e a versão das placas
+Admin# upgrade xdu 0.0.0.0 1 1 GC8B_RP1200_012S1B.gz 15
+    // 0.0.0.0             = IP FTPSERVER
+    // 1                   = user FTPSERVER
+    // 1                   = password FTPSERVER
+    // GC8B_RP1200_012S1B  = FIRMWARE ATUALIZADA
+    // 15                  = SLOT da placa PON na OLT
+
+

@@ -8,8 +8,8 @@ Requisitos Minimos e importancia do Hardware/Servidor.
 
 Parte 1 - Básico de UNM2000  
 
-	 1 - Adicionando uma OLT ao UNM
-			 1.1 - Criando Logical Domain	    
+	1 - Adicionando uma OLT ao UNM
+			1.1 - Criando Logical Domain	    
 		    1.2 - Adicionando um Elemento	    
 		    1.3 - Adicionando as configurações básicas da OLT.	    
 		    1.4 - Importancia da configuração SNMP - Time Calibration  

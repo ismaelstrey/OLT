@@ -1,0 +1,20 @@
+                            Configuração de ALARMES
+=========================================================================================
+            00:01:00 a  00:06:00 //Video Alarmes Fiberhome
+
+        Configuração do tempo que o alarme vai demorar para sair da lista.
+        
+        UNM2000
+        system
+            alarm setings
+                Server Setings 
+                    Alarm History Definitions
+------------------------------------------------------------------------------------------
+             00:06:00 a  00:10:00 //Video Alarmes Fiberhome
+
+        Caso depois queira ver os alarmes pode utilizar o alarm History
+       
+        UNM2000
+        alarm
+            History Alarm //ou ctrl+h
+    //os  alarmes pode ser exportados para .XLS para ser analizados no Exel
